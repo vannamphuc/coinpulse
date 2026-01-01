@@ -19,6 +19,12 @@ export const metadata: Metadata = {
     "Crypto Scrseener App with a built-in High-Frequency Terminal & Dashboard",
 };
 
+/**
+ * Provides the application's root HTML layout including font variables, the dark-mode html class, and the site header.
+ *
+ * @param children - Page content to render inside the layout's body
+ * @returns The root `<html>` element containing a `<body>` with the header and `children`
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
