@@ -45,9 +45,7 @@ const TrendingCoins = async () => {
               ) : (
                 <TrendingDown width={16} height={16} />
               )}
-              {formatCurrency(
-                Number(item.data.price_change_percentage_24h.usd.toFixed(2))
-              )}
+              {item.data.price_change_percentage_24h.usd.toFixed(2)}%
             </p>
           </div>
         );
