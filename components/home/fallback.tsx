@@ -60,4 +60,103 @@ const TrendingCoinsFallback = () => {
   );
 };
 
-export { CoinOverviewFallback, TrendingCoinsFallback };
+const CategoriesFallback = () => {
+  const skeletonData = Array.from({ length: 10 }, (_, i) => ({ id: i }));
+
+  const columns: DataTableColumn<{ id: number }>[] = [
+    {
+      header: "Category",
+      cellClassName: "category-cell",
+      cell: () => <div className="category-skeleton skeleton" />,
+    },
+    {
+      header: "Top Gainers",
+      cellClassName: "top-gainers-cell",
+      cell: () => (
+        <>
+          <div className="coin-skeleton skeleton" />
+          <div className="coin-skeleton skeleton" />
+          <div className="coin-skeleton skeleton" />
+        </>
+      ),
+    },
+    {
+      header: "24h Change",
+      cellClassName: "change-header-cell",
+      cell: () => (
+        <div className="change-cell">
+          <div className="change-icon skeleton" />
+          <div className="value-skeleton-sm skeleton" />
+        </div>
+      ),
+    },
+    {
+      header: "Market Cap",
+      cellClassName: "market-cap-cell",
+      cell: () => <div className="value-skeleton-lg skeleton" />,
+    },
+  ];
+
+  return (
+    <div id="categories-fallback" className="custom-scrollbar">
+      <h4>Top Categories</h4>
+      <DataTable
+        columns={columns}
+        data={skeletonData}
+        rowKey={(item) => item.id}
+        tableClassName="mt-3"
+      />
+    </div>
+  );
+};
+
+const CoinsFallback = () => {
+  const skeletonData = Array.from({ length: 10 }, (_, i) => ({ id: i }));
+
+  const columns: DataTableColumn<{ id: number }>[] = [
+    {
+      header: "Rank",
+      cellClassName: "rank-cell",
+      cell: () => <div className="h-4 w-8 skeleton" />,
+    },
+    {
+      header: "Token",
+      cellClassName: "token-cell",
+      cell: () => (
+        <div className="flex items-center gap-3">
+          <div className="size-9 rounded-full skeleton" />
+          <div className="h-4 w-32 skeleton" />
+        </div>
+      ),
+    },
+    {
+      header: "Price",
+      cellClassName: "price-cell",
+      cell: () => <div className="h-4 w-20 skeleton" />,
+    },
+    {
+      header: "24h Change",
+      cellClassName: "change-cell",
+      cell: () => <div className="h-4 w-16 skeleton" />,
+    },
+    {
+      header: "Market Cap",
+      cellClassName: "market-cap-cell",
+      cell: () => <div className="h-4 w-24 skeleton" />,
+    },
+  ];
+
+  return (
+    <>
+      <DataTable
+        tableClassName="coins-table"
+        columns={columns}
+        data={skeletonData}
+        rowKey={(item) => item.id}
+      />
+      <div className="h-10 w-full skeleton rounded-sm mt-5" />
+    </>
+  );
+};
+
+export { CoinOverviewFallback, TrendingCoinsFallback, CategoriesFallback, CoinsFallback };
