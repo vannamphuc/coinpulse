@@ -22,7 +22,7 @@ export const fetcher = async <T>(
   );
   const response = await fetch(url, {
     headers: {
-      x_cg_pro_api_key: API_KEY,
+      x_cg_demo_api_key: API_KEY,
       "Content-Type": "application/json",
     } as Record<string, string>,
     next: { revalidate: revalidate },
