@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { cn, formatPercentage, formatCurrency } from "@/lib/utils";
 import { fetcher } from "@/lib/coingecko.action";
 import DataTable from "@/components/DataTable";
 import CoinsPagination from "@/components/CoinsPagination";
+import { CoinsFallback } from "@/components/home/fallback";
 
-const Coins = async ({ searchParams }: NextPageProps) => {
-  const { page } = await searchParams;
-
-  const currentPage = Number(page) || 1;
+async function CoinsTable({ currentPage }: { currentPage: number }) {
   const perPage = 10;
 
   const coinsData = await fetcher<CoinMarketData[]>("/coins/markets", {
@@ -86,22 +85,35 @@ const Coins = async ({ searchParams }: NextPageProps) => {
   ];
 
   return (
+    <>
+      <DataTable
+        tableClassName="coins-table"
+        columns={columns}
+        data={coinsData}
+        rowKey={(coin) => coin.id}
+      />
+
+      <CoinsPagination
+        currentPage={currentPage}
+        totalPages={estimatedTotalPages}
+        hasMorePages={hasMorePages}
+      />
+    </>
+  );
+}
+
+const Coins = async ({ searchParams }: NextPageProps) => {
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
+
+  return (
     <main id="coins-page">
       <div className="content">
         <h4>All Coins</h4>
 
-        <DataTable
-          tableClassName="coins-table"
-          columns={columns}
-          data={coinsData}
-          rowKey={(coin) => coin.id}
-        />
-
-        <CoinsPagination
-          currentPage={currentPage}
-          totalPages={estimatedTotalPages}
-          hasMorePages={hasMorePages}
-        />
+        <Suspense key={currentPage} fallback={<CoinsFallback />}>
+          <CoinsTable currentPage={currentPage} />
+        </Suspense>
       </div>
     </main>
   );
